@@ -34,10 +34,10 @@ mod distance {
 	}
 
 	pub fn manhattan(x: &Vec<i64>, y: &Vec<i64>) -> u64 {
-		let res: u64 = x.par_iter()
-						.zip(y.par_iter())
-						.map(|(a,b)| i64::abs(a-b) as u64)
-						.sum();
+		let res = x.par_iter()
+				   .zip(y.par_iter())
+				   .map(|(a,b)| i64::abs(a-b) as u64)
+				.sum();
 		return res;
 	}
 
