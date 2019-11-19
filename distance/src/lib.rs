@@ -16,7 +16,7 @@ mod linalg {
 mod distance {
 	extern crate rayon;
 	use crate::linalg::dot;
-use rayon::prelude::*;
+	use rayon::prelude::*;
 	pub fn euclidean(x: &Vec<f64>, y: &Vec<f64>) -> f64 {
 		let res: f64 = x.par_iter()
 						.zip(y.par_iter())
@@ -30,6 +30,14 @@ use rayon::prelude::*;
 		let num = dot(x,y);
 		let dem = dot(x,x).sqrt() * dot(y,y).sqrt();
 		return num/dem;
+	}
+
+	pub fn hamming(x: &Vec<i64>, y: &Vec<i64>) -> u64 {
+		let res: u64 = x.par_iter()
+						.zip(y.par_iter())
+						.map(|(a,b)| i64::abs(a-b) as u64)
+						.sum();
+		return res;
 	}
 }
 
