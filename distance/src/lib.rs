@@ -2,6 +2,7 @@ mod linalg {
 	extern crate rayon;
 	extern crate num;
 	use num::Num;
+	use std::ops::Sub;
 	use std::iter::Sum;
 	use rayon::prelude::*;
 	pub fn dot<T:  Num + Send + Sync + Copy + Sum>(x: &Vec<T>, y: &Vec<T>) -> T {
@@ -9,8 +10,8 @@ mod linalg {
 		return res;
 	}
 
-	pub fn sub(x: &Vec<f64>, y: &Vec<f64>) -> Vec<f64> {
-		let res: Vec<f64> = x.par_iter().zip(y.par_iter()).map(|(a, b)| a - b).collect();
+	pub fn sub<T:  Sub + Num + Send + Sync + Copy + Sum>(x: &Vec<T>, y: &Vec<T>) -> Vec<T> {
+		let res: Vec<T> = x.par_iter().zip(y.par_iter()).map(|(a, b)| (*a) - (*b)).collect();
 		return res;
 	}
 
