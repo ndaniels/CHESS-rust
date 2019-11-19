@@ -39,6 +39,14 @@ mod distance {
 						.sum();
 		return res;
 	}
+
+	pub fn hamming(x: &Vec<u64>, y: &Vec<u64>) -> u64 {
+		let res = x.par_iter()
+				   .zip(y.par_iter())
+				   .map(|(a,b)| if a == b {0} else {1})
+				   .sum();
+		return res;
+	}
 }
 
 #[cfg(test)]
