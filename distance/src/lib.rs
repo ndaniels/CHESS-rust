@@ -1,8 +1,11 @@
 mod linalg {
 	extern crate rayon;
+	extern crate num;
+	use num::Num;
+	use std::iter::Sum;
 	use rayon::prelude::*;
-	pub fn dot(x: &Vec<f64>, y: &Vec<f64>) -> f64 {
-		let res: f64 = x.par_iter().zip(y.par_iter()).map(|(a, b)| a * b).sum();
+	pub fn dot<T:  Num + Send + Sync + Copy + Sum>(x: &Vec<T>, y: &Vec<T>) -> T {
+		let res:T  = x.par_iter().zip(y.par_iter()).map(|(a, b)| (*a) * (*b)).sum();
 		return res;
 	}
 
