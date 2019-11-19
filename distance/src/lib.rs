@@ -1,12 +1,12 @@
 mod linalg {
 	extern crate rayon;
 	use rayon::prelude::*;
-	fn dot(x: Vec<f64>, y: Vec<f64>) -> f64 {
+	pub fn dot(x: &Vec<f64>, y: &Vec<f64>) -> f64 {
 		let res: f64 = x.par_iter().zip(y.par_iter()).map(|(a, b)| a * b).sum();
 		return res;
 	}
 
-	fn sub(x: Vec<f64>, y: Vec<f64>) -> Vec<f64> {
+	pub fn sub(x: &Vec<f64>, y: &Vec<f64>) -> Vec<f64> {
 		let res: Vec<f64> = x.par_iter().zip(y.par_iter()).map(|(a, b)| a - b).collect();
 		return res;
 	}
@@ -15,14 +15,21 @@ mod linalg {
 
 mod distance {
 	extern crate rayon;
-	use rayon::prelude::*;
-	fn euclidean(x: Vec<f64>, y: Vec<f64>) -> f64 {
+	use crate::linalg::dot;
+use rayon::prelude::*;
+	pub fn euclidean(x: &Vec<f64>, y: &Vec<f64>) -> f64 {
 		let res: f64 = x.par_iter()
 						.zip(y.par_iter())
 						.map(|(a,b)| (a-b)*(a-b))
 						.sum();
 		return res.sqrt(); // ugly; why does typechecker hate
 						   // putting sqrt() call chained to sum()?
+	}
+
+	pub fn cosine(x: &Vec<f64>, y: &Vec<f64>) -> f64 {
+		let num = dot(x,y);
+		let dem = dot(x,x).sqrt() * dot(y,y).sqrt();
+		return num/dem;
 	}
 }
 
