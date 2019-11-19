@@ -17,8 +17,12 @@ mod distance {
 	extern crate rayon;
 	use rayon::prelude::*;
 	fn euclidean(x: Vec<f64>, y: Vec<f64>) -> f64 {
-		let res: f64 = x.par_iter().zip(y.par_iter()).map(|(a,b)| (a-b)*(a-b)).sum();
-		return res;
+		let res: f64 = x.par_iter()
+						.zip(y.par_iter())
+						.map(|(a,b)| (a-b)*(a-b))
+						.sum();
+		return res.sqrt(); // ugly; why does typechecker hate
+						   // putting sqrt() call chained to sum()?
 	}
 }
 
