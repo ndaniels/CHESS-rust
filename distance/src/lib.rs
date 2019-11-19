@@ -15,6 +15,7 @@ mod linalg {
 
 mod distance {
 	extern crate rayon;
+	use std::cmp::PartialEq;
 	use crate::linalg::dot;
 	use rayon::prelude::*;
 	pub fn euclidean(x: &Vec<f64>, y: &Vec<f64>) -> f64 {
@@ -40,7 +41,7 @@ mod distance {
 		return res;
 	}
 
-	pub fn hamming(x: &Vec<u64>, y: &Vec<u64>) -> u64 {
+	pub fn hamming<T: PartialEq + Sync>(x: &Vec<T>, y: &Vec<T>) -> u64 {
 		let res = x.par_iter()
 				   .zip(y.par_iter())
 				   .map(|(a,b)| if a == b {0} else {1})
