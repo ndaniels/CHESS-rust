@@ -10,7 +10,7 @@ mod linalg {
 		return res;
 	}
 
-	pub fn sub<T:  Sub + Num + Send + Sync + Copy + Sum>(x: &Vec<T>, y: &Vec<T>) -> Vec<T> {
+	pub fn sub<T:  Num + Send + Sync + Copy + Sum>(x: &Vec<T>, y: &Vec<T>) -> Vec<T> {
 		let res: Vec<T> = x.par_iter().zip(y.par_iter()).map(|(a, b)| (*a) - (*b)).collect();
 		return res;
 	}
