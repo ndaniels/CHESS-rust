@@ -5,13 +5,17 @@ mod linalg {
 	use std::iter::Sum;
 	use rayon::prelude::*;
 	pub fn dot<T: Num + Send + Sync + Copy + Sum>(x: &[T], y: &[T]) -> T {
-		let res:T  = x.par_iter().zip(y.par_iter()).map(|(a, b)| (*a) * (*b)).sum();
-		res
+		x.par_iter()
+					.zip(y.par_iter())
+					.map(|(a, b)| (*a) * (*b))
+					.sum()
 	}
 
 	pub fn sub<T: Num + Send + Sync + Copy + Sum>(x: &[T], y: &[T]) -> Vec<T> {
-		let res: Vec<T> = x.par_iter().zip(y.par_iter()).map(|(a, b)| (*a) - (*b)).collect();
-		res
+		x.par_iter()
+					.zip(y.par_iter())
+					.map(|(a, b)| (*a) - (*b))
+					.collect()
 	}
 
 }
@@ -26,11 +30,10 @@ mod distance {
 	}
 
 	pub fn euclideansq(x: &[f64], y: &[f64]) -> f64 {
-		let res: f64 = x.par_iter()
-						.zip(y.par_iter())
-						.map(|(a,b)| (a-b)*(a-b))
-						.sum();
-		res
+		x.par_iter()
+					.zip(y.par_iter())
+					.map(|(a,b)| (a-b)*(a-b))
+					.sum()
 	}
 
 	pub fn cosine(x: &[f64], y: &[f64]) -> f64 {
