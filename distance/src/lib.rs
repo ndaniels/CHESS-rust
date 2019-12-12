@@ -4,14 +4,14 @@ mod linalg {
 	use num::Num;
 	use std::iter::Sum;
 	use rayon::prelude::*;
-	pub fn dot<T: Num + Send + Sync + Copy + Sum>(x: &Vec<T>, y: &Vec<T>) -> T {
+	pub fn dot<T: Num + Send + Sync + Copy + Sum>(x: &[T], y: &[T]) -> T {
 		let res:T  = x.par_iter().zip(y.par_iter()).map(|(a, b)| (*a) * (*b)).sum();
-		return res;
+		res
 	}
 
-	pub fn sub<T: Num + Send + Sync + Copy + Sum>(x: &Vec<T>, y: &Vec<T>) -> Vec<T> {
+	pub fn sub<T: Num + Send + Sync + Copy + Sum>(x: &[T], y: &[T]) -> Vec<T> {
 		let res: Vec<T> = x.par_iter().zip(y.par_iter()).map(|(a, b)| (*a) - (*b)).collect();
-		return res;
+		res
 	}
 
 }
@@ -21,11 +21,11 @@ mod distance {
 	use std::cmp::PartialEq;
 	use crate::linalg::dot;
 	use rayon::prelude::*;
-	pub fn euclidean(x: &Vec<f64>, y: &Vec<f64>) -> f64 {
+	pub fn euclidean(x: &[f64], y: &[f64]) -> f64 {
 		euclideansq(x,y).sqrt()
 	}
 
-	pub fn euclideansq(x: &Vec<f64>, y: &Vec<f64>) -> f64 {
+	pub fn euclideansq(x: &[f64], y: &[f64]) -> f64 {
 		let res: f64 = x.par_iter()
 						.zip(y.par_iter())
 						.map(|(a,b)| (a-b)*(a-b))
@@ -33,27 +33,26 @@ mod distance {
 		res
 	}
 
-	pub fn cosine(x: &Vec<f64>, y: &Vec<f64>) -> f64 {
+	pub fn cosine(x: &[f64], y: &[f64]) -> f64 {
 		let num = dot(x,y);
 		let dem = dot(x,x).sqrt() * dot(y,y).sqrt();
 		num/dem
 	}
 
-	pub fn manhattan(x: &Vec<i64>, y: &Vec<i64>) -> u64 {
-		let res = x.par_iter()
+	pub fn manhattan(x: &[i64], y: &[i64]) -> u64 {
+		x.par_iter()
 				   .zip(y.par_iter())
 				   .map(|(a,b)| i64::abs(a-b) as u64)
-				   .sum();
-		res
+				   .sum()
 	}
 
-	pub fn hamming<T: PartialEq + Sync>(x: &Vec<T>, y: &Vec<T>) -> u64 {
-		let res = x.par_iter()
+	pub fn hamming<T: PartialEq + Sync>(x: &[T], y: &[T]) -> u64 {	
+		x.par_iter()
 				   .zip(y.par_iter())
 				   .map(|(a,b)| if a == b {0} else {1})
-				   .sum();
-		res
+				   .sum()
 	}
+
 }
 
 #[cfg(test)]
