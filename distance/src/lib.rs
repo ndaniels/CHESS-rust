@@ -17,6 +17,12 @@ mod linalg {
 					.map(|(a, b)| (*a) - (*b))
 					.collect()
 	}
+	pub fn mul<T: Num + Send + Sync + Copy + Sum>(x: &[T], y: &[T]) -> Vec<T> {
+		x.par_iter()
+					.zip(y.par_iter())
+					.map(|(a, b)| (*a) * (*b))
+					.collect()
+	}
 
 }
 
@@ -25,13 +31,15 @@ mod distance {
 	use std::cmp::PartialEq;
 	use crate::linalg::dot;
 	use crate::linalg::sub;
+	use crate::linalg::mul;
 	use rayon::prelude::*;
 	pub fn euclidean(x: &[f64], y: &[f64]) -> f64 {
 		euclideansq(x,y).sqrt()
 	}
 
 	pub fn euclideansq(x: &[f64], y: &[f64]) -> f64 {
-		sub(x,y).iter().sum()
+		let d = sub(x,y);
+		mul(&d,&d).iter().sum()
 	}
 
 	pub fn cosine(x: &[f64], y: &[f64]) -> f64 {
