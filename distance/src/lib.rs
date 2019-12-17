@@ -49,7 +49,7 @@ mod distance {
 				   .sum()
 	}
 
-	pub fn hamming<T: PartialEq + Sync>(x: &[T], y: &[T]) -> u64 {	
+	pub fn hamming<T: PartialEq + Sync>(x: &[T], y: &[T]) -> u64 {
 		x.par_iter()
 				   .zip(y.par_iter())
 				   .map(|(a,b)| if a == b {0} else {1})
@@ -60,8 +60,36 @@ mod distance {
 
 #[cfg(test)]
 mod tests {
+	use crate::distance;
+	use float_cmp::approx_eq;
     #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
+    fn test_hamming() {
+    	let x = [1, 2, 3];
+    	let y = [1, 1, 1];
+        assert_eq!(distance::hamming(&x,&y), 2);
+    }
+    #[test]
+    fn test_manhattan() {
+    	let x = [1, 2, 3];
+    	let y = [1, 1, 1];
+        assert_eq!(distance::manhattan(&x,&y), 3);
+    }
+    #[test]
+    fn test_cosine() {
+    	let x = [1.0, 1.0, 1.0];
+    	let y = [1.0, 1.0, 1.0];
+        assert!(approx_eq!(f64, distance::cosine(&x,&y), 1.0, ulps=2));
+    }
+    #[test]
+    fn test_euclidean() {
+    	let x = [0.0,3.0];
+    	let y = [4.0,0.0];
+        assert_eq!(distance::euclidean(&x,&y), 5.0);
+    }
+    #[test]
+    fn test_euclideansq() {
+    	let x = [0.0,3.0];
+    	let y = [4.0,0.0];
+        assert_eq!(distance::euclideansq(&x,&y), 25.0);
     }
 }
