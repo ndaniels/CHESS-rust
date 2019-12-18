@@ -32,16 +32,18 @@ mod distance {
 	extern crate rayon;
 	use std::cmp::PartialEq;
 	use crate::linalg::dot;
-	use crate::linalg::sub;
-	use crate::linalg::mul;
+	
+	
 	use rayon::prelude::*;
 	pub fn euclidean(x: &[f64], y: &[f64]) -> f64 {
 		euclideansq(x,y).sqrt()
 	}
 
 	pub fn euclideansq(x: &[f64], y: &[f64]) -> f64 {
-		let d = sub(x,y);
-		mul(&d,&d).iter().sum()
+		x.par_iter()
+ 					.zip(y.par_iter())
+ 					.map(|(a,b)| (a-b)*(a-b))
+ 					.sum()
 	}
 
 	pub fn cosine(x: &[f64], y: &[f64]) -> f64 {
