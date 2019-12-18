@@ -1,3 +1,5 @@
+pub use crate::distance::*;
+
 mod linalg {
 	extern crate rayon;
 	extern crate num;
