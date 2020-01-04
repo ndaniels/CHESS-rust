@@ -1,6 +1,6 @@
 pub use crate::distance::*;
 
-mod linalg {
+pub mod linalg {
 	extern crate rayon;
 	extern crate num;
 	use num::Num;
@@ -28,12 +28,10 @@ mod linalg {
 
 }
 
-mod distance {
+pub mod distance {
 	extern crate rayon;
 	use std::cmp::PartialEq;
 	use crate::linalg::dot;
-	
-	
 	use rayon::prelude::*;
 	pub fn euclidean(x: &[f64], y: &[f64]) -> f64 {
 		euclideansq(x,y).sqrt()
