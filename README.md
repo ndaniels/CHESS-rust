@@ -1,2 +1,2 @@
 # CHESS-rust
-Rust implementation of CHESS (Clustered Hierarchical Entropy-Scaling Search)
+This is for archival purposes only. Please see https://github.com/URI-ABD/distance
